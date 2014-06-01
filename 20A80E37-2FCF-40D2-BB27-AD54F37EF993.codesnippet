@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>- (NSFetchedResultsController*)fetchedResultsController {
+    if (!_fetchedResultsController) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:&lt;#entity#&gt;
+                                                  inManagedObjectContext:&lt;#context#&gt;];
+        [fetchRequest setEntity:entity];
+        [fetchRequest setPredicate:&lt;#predicate#&gt;];
+        // Specify how the fetched objects should be sorted
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:&lt;#sorting key#&gt;
+                                                                       ascending:YES
+                                                                        selector:@selector(localizedStandardCompare:)];
+        [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+        
+        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                        managedObjectContext:&lt;#context#&gt;
+                                                                                       sectionNameKeyPath:nil
+                                                                                                cacheName:nil];
+        NSError *error;
+        [_fetchedResultsController performFetch:&amp;error];
+    }
+    return _fetchedResultsController;
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>20A80E37-2FCF-40D2-BB27-AD54F37EF993</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Objective-C</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>Generates sample code for Fetched Result Controller</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>Fetched Results Controller</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

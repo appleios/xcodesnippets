@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>UIManagedDocument</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>ClassImplementation</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>static NSString *kModelName = @"Model";
+
+UIManagedDocument *_managedDocument;
+NSManagedObjectContext *_managedObjectContext;
+
+@property (readonly) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic, readonly) UIManagedDocument *managedDocument;
+
+@property (readonly) NSURL *modelURL;
+
+#pragma mark - Helpers
+
+- (NSURL*)applicationDocumentsDirectory {
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    return [NSURL fileURLWithPath:path];
+}
+
+- (NSURL*)modelURL{
+    return [[self applicationDocumentsDirectory] URLByAppendingPathComponent:kModelName];
+}
+
+#pragma mark - Main
+
+- (NSManagedObjectContext*)managedObjectContext {
+    return self.managedDocument.managedObjectContext;
+}
+
+- (void)saveContext {
+    [self saveContextWithCallBack:^(BOOL success){
+        if (!success) {
+            // Handle the error.
+            NSLog(@"Error Occured while saving the UIManagedDocument");
+        }else{
+            //...
+        }
+    }];
+}
+
+- (void)saveContextWithCallBack:(void (^)(BOOL success))completion {
+    [self.managedDocument saveToURL:self.modelURL
+                   forSaveOperation:UIDocumentSaveForCreating
+                  completionHandler:completion];
+}
+
+-(UIManagedDocument*)managedDocument{
+    if (!_managedDocument) {
+        _managedDocument = [[UIManagedDocument alloc] initWithFileURL:self.modelURL];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[self.modelURL path]]) {
+            [_managedDocument openWithCompletionHandler:^(BOOL success){
+                if (!success) {
+                    // Handle the error.
+                    NSLog(@"Error Occured while opening the UIManagedDocument");
+                }else{
+                    //[self documentIsReady];
+                }
+            }];
+        }
+        else {
+            [_managedDocument saveToURL:self.modelURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success){
+                if (!success) {
+                    // Handle the error.
+                    NSLog(@"Error Occured while saving the UIManagedDocument");
+                }else{
+                    //[self documentIsReady];
+                }
+            }];
+        }
+    }
+    return _managedDocument;
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>CB4D690D-2C0F-4335-9B06-D83B0ED14FA9</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Objective-C</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>UIManagedObject and Helpers for Interaction with Database</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>UIManagedObject</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
